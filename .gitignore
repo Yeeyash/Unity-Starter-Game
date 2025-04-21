@@ -1,0 +1,41 @@
+# Unity generated files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+MemoryCaptures/
+Recordings/
+
+# User-specific files
+[Uu]ser[Ss]ettings/
+
+# Crash and metadata files
+sysinfo.txt
+*.pidb
+*.pidb.meta
+
+# Visual Studio and IDE files
+.vs/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+
+# Gradle and JetBrains Rider files
+.gradle/
+[Aa]ssets/Plugins/Editor/JetBrains*
+
+# Asset Store Tools
+[Aa]ssets/AssetStoreTools*
+
+# Other files you might not want to track
+.DS_Store
+*.swp
+*.lock
+*.log
+*.bak
