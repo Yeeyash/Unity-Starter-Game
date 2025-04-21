@@ -25,7 +25,36 @@ The Tutorial is been inspired from <a href="http://www.youtube.com/@GMTK">Game M
 
 ## 🧭 3. Understanding the Unity User Interface (UI)
 
-1. On your right, We have an "Inspector" View, this is the tab where we can change/modify the settings for a specific "GameObject".
-2. A "GameObject" is an Empty Container where you can Insert/Add "Components" or Functions on. Everything that is going to be used in Rendering/Logic/UI is are going to be **Components** for a **GameObject**.
-3. All GameObjects used in Scene are displayed in "Heirarchy" section, We can Add/Remove/Modify GameObjects from this section.
-4. On the Bottom portions, we can see 2 Tabs, Projects and Console. Project consists of a tab named "Assests" this is where all of our usable information is going to be stored, we can create a new asset by Right Clicking inside the Assests section or Drag and Drop existing Entities/Code/Modules inside it. Only after adding assets, we can modify them inside Unity.
+When you open Unity, the layout might seem overwhelming at first — but don't worry, it's easy once you know what each panel does. Here's a quick breakdown:
+
+### 🔳 Scene View
+- This is your "workspace" — where you design and build your game.
+- You can drag, move, rotate, and scale GameObjects here.
+- Think of it like your level editor.
+
+### 🎮 Game View
+- This shows what the player will see when they play the game.
+- Hit the ▶️ (Play) button at the top to preview the game in this window.
+
+### 🧱 Hierarchy
+- Lists **all GameObjects** in your current Scene.
+- This is where you’ll find things like the Camera, Lights, and your Player object.
+- You can drag things in and out to organize objects (like putting enemies inside a folder called "Enemies").
+
+### ⚙️ Inspector
+- When you select any GameObject, its properties show up here.
+- You can change the position, size, color, add scripts, colliders, and more from this panel.
+
+### 📁 Project
+- This is your file manager inside Unity.
+- Everything you import or create (scripts, images, audio, etc.) lives here in folders.
+
+### 💬 Console
+- Displays messages like errors, warnings, and print/debug logs from your scripts.
+- Super useful for finding issues in your game.
+
+---
+
+🔄 **Tip:** You can rearrange or reset the layout anytime:  
+Go to `Window > Layouts > Default` if something gets messed up.
+
