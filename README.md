@@ -124,3 +124,96 @@ Once you do this, your `Barb` object will now be visible in the Scene!
 
 If the Sprite is not Visible, try changing the Position Value for Z of either **Main Camera** or **Barb**.
 Now `Barb` has a visual — you're one step closer to bringing your character to life! 🎉
+
+---
+
+## 🐦 6. Adding Physics and a Script to Your Bird
+
+Now that we know how to add visual components, let’s make our GameObject interactive — like giving it **gravity** and letting it detect **collisions**. We’ll also attach a script so we can start coding behavior.
+
+---
+
+### 🧲 Adding Physics to the Bird
+
+1. In the **Hierarchy**, select your `Bird` GameObject (make sure you’ve created and named it).
+2. In the **Inspector**, click **Add Component**.
+3. Search for and add **Rigidbody 2D** – this gives your GameObject physics like gravity and movement.
+4. Again, click **Add Component**, search for and add **Circle Collider 2D** – this lets the Bird detect collisions using a circular hitbox.
+
+> 🧠 **Why these?**  
+> - `Rigidbody 2D`: Makes the Bird fall or respond to forces.
+> - `Circle Collider 2D`: Lets it bump into things or trigger events when it hits other objects.
+
+---
+
+### 💻 Attaching a Script
+
+1. With the Bird still selected, click **Add Component**.
+2. Search for **New Script**, name it something like `BirdController`, and click **Create and Add**.
+3. In the **Inspector**, double-click the script to open it in **Visual Studio 2022 IDE**.
+
+---
+
+### ✍️ Understanding the Script Template
+
+Once the script opens, you’ll see something like this:
+
+```csharp
+using UnityEngine;
+
+public class BirdController : MonoBehaviour
+{
+    void Start()
+    {
+        // This runs once when the game starts
+    }
+
+    void Update()
+    {
+        // This runs every frame (continuously)
+    }
+}
+```
+---
+
+## ✏️ 7. Modifying GameObject Properties in Code
+
+Let’s start writing actual logic inside our script to change properties of our Bird GameObject!
+
+---
+
+### 🐦 Renaming the GameObject via Script
+
+In Unity, `gameObject` refers to **the object this script is attached to** — in our case, the Bird.
+
+Let’s change the name of our Bird from `Bird` to something like `FlappyBird` using the **Start()** function.
+
+Inside `BirdController.cs`, modify the `Start()` method like this:
+
+```csharp
+void Start()
+{
+    gameObject.name = "FlappyBird";
+}
+```
+
+#### 🧠 This line runs once when the game begins and renames the object in the Hierarchy view.
+
+### 🔍 Understanding the Inspector & Accessing Components
+The Inspector view shows all the components attached to a GameObject — like Transform, Rigidbody2D, Collider, Sprite Renderer, and any scripts.
+
+Right now, your script can only directly access:
+
+ - gameObject
+
+ - transform (for position, rotation, scale)
+
+But what if we want to control other components like:
+
+ - Rigidbody2D (for movement, gravity)
+
+ - Collider2D (for detecting collisions)
+
+ - SpriteRenderer (for changing visuals)
+
+To do this, we need to create references to those components using code.
