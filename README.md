@@ -217,3 +217,50 @@ But what if we want to control other components like:
  - SpriteRenderer (for changing visuals)
 
 To do this, we need to create references to those components using code.
+
+---
+
+## 🕹️ 8. Making the Bird Flap with Spacebar Input
+
+Now let’s make our bird move only **when we press the spacebar** — just like in Flappy Bird. We'll be using Unity’s **Rigidbody2D** component and writing code inside the `Update()` method.
+
+---
+
+### ⚙️ Accessing Rigidbody2D in Script
+
+Before we can control the bird’s physics, we need to create a reference to its Rigidbody2D component.
+
+At the **top of your script (but inside the class)**, add this line:
+
+```csharp
+public float flapStrength;
+```
+
+Now inside the `Update()` method, we’ll apply a velocity to the Rigidbody2D when the spacebar is pressed:
+```csharp
+void Update()
+{
+    if (Input.GetKeyDown(KeyCode.Space))
+    {
+        myRigidbody.velocity = Vector2.up * flapStrength;
+    }
+}
+```
+
+ - `Input.GetKeyDown(KeyCode.Space)` detects when you press the spacebar.
+
+ - `Vector2.up * flapStrength` applies force in the upward direction.
+
+ - `.velocity` sets the linear velocity, which moves the bird.
+
+> ⚠️ Right now, each spacebar press will make the bird flap upward. Without pressing, gravity (from Rigidbody2D) pulls the bird down.
+
+---
+
+🔧 Set flapStrength in Unity
+Since `flapStrength` is marked `public`, it appears in the Unity Inspector.
+
+1. Click on the **Bird** GameObject.
+2. In the Inspector, you’ll see your **BirdController** script.
+3. Set Flap Strength to something like 5 or 10 — play around with it to get the right feel.
+
