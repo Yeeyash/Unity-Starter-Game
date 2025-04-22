@@ -124,3 +124,143 @@ Once you do this, your `Barb` object will now be visible in the Scene!
 
 If the Sprite is not Visible, try changing the Position Value for Z of either **Main Camera** or **Barb**.
 Now `Barb` has a visual — you're one step closer to bringing your character to life! 🎉
+
+---
+
+## 🐦 6. Adding Physics and a Script to Your Bird
+
+Now that we know how to add visual components, let’s make our GameObject interactive — like giving it **gravity** and letting it detect **collisions**. We’ll also attach a script so we can start coding behavior.
+
+---
+
+### 🧲 Adding Physics to the Bird
+
+1. In the **Hierarchy**, select your `Bird` GameObject (make sure you’ve created and named it).
+2. In the **Inspector**, click **Add Component**.
+3. Search for and add **Rigidbody 2D** – this gives your GameObject physics like gravity and movement.
+4. Again, click **Add Component**, search for and add **Circle Collider 2D** – this lets the Bird detect collisions using a circular hitbox.
+
+> 🧠 **Why these?**  
+> - `Rigidbody 2D`: Makes the Bird fall or respond to forces.
+> - `Circle Collider 2D`: Lets it bump into things or trigger events when it hits other objects.
+
+---
+
+### 💻 Attaching a Script
+
+1. With the Bird still selected, click **Add Component**.
+2. Search for **New Script**, name it something like `BirdController`, and click **Create and Add**.
+3. In the **Inspector**, double-click the script to open it in **Visual Studio 2022 IDE**.
+
+---
+
+### ✍️ Understanding the Script Template
+
+Once the script opens, you’ll see something like this:
+
+```csharp
+using UnityEngine;
+
+public class BirdController : MonoBehaviour
+{
+    void Start()
+    {
+        // This runs once when the game starts
+    }
+
+    void Update()
+    {
+        // This runs every frame (continuously)
+    }
+}
+```
+---
+
+## ✏️ 7. Modifying GameObject Properties in Code
+
+Let’s start writing actual logic inside our script to change properties of our Bird GameObject!
+
+---
+
+### 🐦 Renaming the GameObject via Script
+
+In Unity, `gameObject` refers to **the object this script is attached to** — in our case, the Bird.
+
+Let’s change the name of our Bird from `Bird` to something like `FlappyBird` using the **Start()** function.
+
+Inside `BirdController.cs`, modify the `Start()` method like this:
+
+```csharp
+void Start()
+{
+    gameObject.name = "FlappyBird";
+}
+```
+
+#### 🧠 This line runs once when the game begins and renames the object in the Hierarchy view.
+
+### 🔍 Understanding the Inspector & Accessing Components
+The Inspector view shows all the components attached to a GameObject — like Transform, Rigidbody2D, Collider, Sprite Renderer, and any scripts.
+
+Right now, your script can only directly access:
+
+ - gameObject
+
+ - transform (for position, rotation, scale)
+
+But what if we want to control other components like:
+
+ - Rigidbody2D (for movement, gravity)
+
+ - Collider2D (for detecting collisions)
+
+ - SpriteRenderer (for changing visuals)
+
+To do this, we need to create references to those components using code.
+
+---
+
+## 🕹️ 8. Making the Bird Flap with Spacebar Input
+
+Now let’s make our bird move only **when we press the spacebar** — just like in Flappy Bird. We'll be using Unity’s **Rigidbody2D** component and writing code inside the `Update()` method.
+
+---
+
+### ⚙️ Accessing Rigidbody2D in Script
+
+Before we can control the bird’s physics, we need to create a reference to its Rigidbody2D component.
+
+At the **top of your script (but inside the class)**, add this line:
+
+```csharp
+public float flapStrength;
+```
+
+Now inside the `Update()` method, we’ll apply a velocity to the Rigidbody2D when the spacebar is pressed:
+```csharp
+void Update()
+{
+    if (Input.GetKeyDown(KeyCode.Space))
+    {
+        myRigidbody.linearvelocity = Vector2.up * flapStrength;
+    }
+}
+```
+
+ - `Input.GetKeyDown(KeyCode.Space)` detects when you press the spacebar.
+
+ - `Vector2.up * flapStrength` applies force in the upward direction.
+
+ - `.velocity` sets the linear velocity, which moves the bird.
+
+> ⚠️ Right now, each spacebar press will make the bird flap upward. Without pressing, gravity (from Rigidbody2D) pulls the bird down.
+
+---
+
+🔧 Set flapStrength in Unity
+Since `flapStrength` is marked `public`, it appears in the Unity Inspector.
+
+1. Click on the **Bird** GameObject.
+2. In the Inspector, you’ll see your **BirdController** script.
+3. Set Flap Strength to something like 5 or 10 — play around with it to get the right feel.
+
