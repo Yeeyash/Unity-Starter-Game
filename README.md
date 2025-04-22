@@ -242,7 +242,7 @@ void Update()
 {
     if (Input.GetKeyDown(KeyCode.Space))
     {
-        myRigidbody.velocity = Vector2.up * flapStrength;
+        myRigidbody.linearvelocity = Vector2.up * flapStrength;
     }
 }
 ```
