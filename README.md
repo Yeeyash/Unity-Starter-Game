@@ -345,12 +345,33 @@ public class PipeSpawner : MonoBehaviour
 
  - ✅ Solution: Multiply by `Time.deltaTime`, which is the time that has passed since the last frame.
 
-🎯 Time.deltaTime makes the movement frame-rate independent — ensuring all devices scroll at the same speed.
+> 🎯 Time.deltaTime makes the movement frame-rate independent — ensuring all devices scroll at the same speed.
 
-🧪 Try It Out!
-1. Hit Play in Unity.
-2. You’ll see your pipe move slowly from right to left — smooth and consistent!
+Let’s fix that so our game behaves the same on **every device**.
 
-You’ve just simulated a side-scrolling environment — awesome! 🚀
+---
 
-Next, we’ll look at generating multiple pipes at intervals, so the player always has something to dodge.
+### 💡 What is `Time.deltaTime`?
+
+`Time.deltaTime` is the amount of **time (in seconds)** that passed **since the last frame**.
+
+So if your game runs at:
+- 60 FPS ➜ `deltaTime` ≈ 0.016 seconds
+- 30 FPS ➜ `deltaTime` ≈ 0.033 seconds
+
+By multiplying your movement by `deltaTime`, you make it **time-based** instead of **frame-based** — much smoother and consistent.
+
+---
+
+### 🛠️ Step-by-Step Fix
+
+Open your `PipeSpawner` script and update the `Update()` method like this:
+
+```csharp
+void Update()
+{
+    transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+}
+```
+
+> ✅ This ensures your pipes move at `moveSpeed` units per second, regardless of how fast `Update()` is called.
