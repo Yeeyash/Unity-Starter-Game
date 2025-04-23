@@ -302,3 +302,55 @@ This will act as the container for both the top and bottom pipes.
 4. Change the **Scale Y** value to `-1` — this flips the pipe upside down so it faces downward.
 
 > 🎨 Both pipes will now share the same sprite, but flipped to face each other.
+
+---
+
+## 🏗️ 10. Spawning and Moving Pipes (Like an Endless Runner)
+
+In Flappy Bird, it’s not the bird that flies forward — instead, the world (pipes) scrolls towards the bird. We can simulate this by moving our `Pipe` GameObjects to the **left** constantly.
+
+---
+
+### 🧠 Why Move the Pipes?
+
+The bird stays still on the **X-axis** and only moves **up/down**. To create the illusion of movement, we’ll scroll the obstacles from right to left.
+
+---
+
+### 💻 Step 1: Create a Script to Move the Pipes
+
+1. In your **Scripts** folder, create a new script called `PipeSpawner`.
+2. Attach this script to the **Pipe** parent GameObject.
+3. Double-click to open it in **Visual Studio 2022 IDE**.
+
+Inside the script, write this:
+
+```csharp
+using UnityEngine;
+
+public class PipeSpawner : MonoBehaviour
+{
+    public float moveSpeed = 5f;
+
+    void Update()
+    {
+        transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+    }
+}
+```
+🔍 What’s Happening Here?
+ - `transform.position += Vector3.left * moveSpeed;`: Moves the object left by moveSpeed every frame.
+
+ - **Problem**: This would move faster on high-end devices because Update() runs more often on them.
+
+ - ✅ Solution: Multiply by `Time.deltaTime`, which is the time that has passed since the last frame.
+
+🎯 Time.deltaTime makes the movement frame-rate independent — ensuring all devices scroll at the same speed.
+
+🧪 Try It Out!
+1. Hit Play in Unity.
+2. You’ll see your pipe move slowly from right to left — smooth and consistent!
+
+You’ve just simulated a side-scrolling environment — awesome! 🚀
+
+Next, we’ll look at generating multiple pipes at intervals, so the player always has something to dodge.
