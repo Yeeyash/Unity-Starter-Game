@@ -375,3 +375,158 @@ void Update()
 ```
 
 > ✅ This ensures your pipes move at `moveSpeed` units per second, regardless of how fast `Update()` is called.
+
+---
+
+## 🧱 12.. Creating and Using Prefabs in Unity
+
+Before we can spawn multiple pipes over time, we need to understand **Prefabs** — one of Unity’s most powerful tools!
+
+---
+
+### 💡 What is a Prefab?
+
+A **Prefab** is like a **blueprint** of a GameObject. Once something is turned into a prefab, Unity can easily **clone (instantiate)** it anytime during gameplay.
+
+Think of it like a cookie cutter — the prefab is the cutter, and each clone is a cookie 🍪.
+
+---
+
+### 🛠️ Step-by-Step: Creating a Pipe Prefab
+
+1. In the **Hierarchy**, find your complete `Pipe` GameObject (the one with `Top` and `Bottom` as children).
+2. **Drag and drop** this `Pipe` object into the **Assets** panel (at the bottom of the screen).
+3. You’ll now see a blue version of your object — that’s your **Prefab**!
+
+> 🎯 Now Unity can use this blueprint to spawn new pipes during gameplay.
+
+---
+
+### 🧪 Step: Setting Up the Spawner GameObject
+
+1. Create an **Empty GameObject** in the **Hierarchy**.
+2. Rename it to `PipeSpawner`.
+3. Create a new C# script and name it `PipeSpawner.cs`.
+4. Attach the script to the `PipeSpawner` GameObject.
+
+Inside the script, we need a way to **reference the prefab** so Unity knows *what to clone*:
+
+```csharp
+public class PipeSpawner : MonoBehaviour
+{
+    public GameObject pipe; // Drag the prefab here in the Editor
+}
+```
+🔗 Final Step: Linking the Prefab to the Script
+Unity doesn’t automatically know which GameObject you mean — so you must **manually assign the reference**:
+
+1. Click on the **PipeSpawner** GameObject in the Hierarchy.
+2. Look at the Inspector — you’ll see a slot labeled **Pipe** under the **PipeSpawner** script.
+3. Drag your **Pipe Prefab** from the Assets folder into this slot.
+
+
+---
+
+## 🚀 13. Building the Pipe Spawner from Scratch
+
+Let’s now bring everything together and build the complete **Pipe Spawner** logic step-by-step.
+
+We'll go from a **basic version** to a more **efficient and clean version**.
+
+---
+
+### 🔨 Step 1: Basic Pipe Spawning (Raw Version)
+
+In the `PipeSpawner.cs` script attached to the `PipeSpawner` GameObject, start with the raw logic:
+
+```csharp
+using UnityEngine;
+
+public class PipeSpawner : MonoBehaviour
+{
+    public GameObject pipe; // Link your prefab in the Inspector
+
+    void Update()
+    {
+        Instantiate(pipe, transform.position, transform.rotation);
+    }
+}
+```
+> 🔁 Warning: When you press Play, you’ll see a flood of pipes! That’s because Update() runs every frame — and we’re instantiating a pipe each time.
+
+---
+
+### ⏳ Step 2: Add a Timer and Spawn Rate
+To slow down the spawning, we’ll add two new variables:
+ - `spawnRate`: How often a pipe should spawn (in seconds).
+
+ - `timer`: Keeps track of time since the last spawn.
+
+Update your script like this:
+
+```csharp
+using UnityEngine;
+
+public class PipeSpawner : MonoBehaviour
+{
+    public GameObject pipe;
+    public float spawnRate = 5f;
+    private float timer = 0f;
+
+    void Update()
+    {
+        if (timer < spawnRate)
+        {
+            timer += Time.deltaTime;
+        }
+        else
+        {
+            Instantiate(pipe, transform.position, transform.rotation);
+            timer = 0f;
+        }
+    }
+}
+```
+> 🕒 Now, pipes will spawn every `spawnRate` seconds — much more controlled!
+
+---
+
+### 🧼 Step 3: Clean Up with a `Spawn()` Function
+To avoid repeating code and keep things clean, let’s move the spawning logic into a reusable function:
+```csharp
+using UnityEngine;
+
+public class PipeSpawner : MonoBehaviour
+{
+    public GameObject pipe;
+    public float spawnRate = 5f;
+    private float timer = 0f;
+
+    void Start()
+    {
+        Spawn(); // Spawn one pipe immediately when the game starts
+    }
+
+    void Update()
+    {
+        if (timer < spawnRate)
+        {
+            timer += Time.deltaTime;
+        }
+        else
+        {
+            Spawn();
+            timer = 0f;
+        }
+    }
+
+    void Spawn()
+    {
+        Instantiate(pipe, transform.position, transform.rotation);
+    }
+}
+```
+
+---
+
+> 🎉 This structure is modular, readable, and efficient — your first big step into writing maintainable game code!
