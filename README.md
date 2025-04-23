@@ -264,3 +264,41 @@ Since `flapStrength` is marked `public`, it appears in the Unity Inspector.
 2. In the Inspector, you’ll see your **BirdController** script.
 3. Set Flap Strength to something like 5 or 10 — play around with it to get the right feel.
 
+---
+
+## 🚧 9. Creating the Pipe Obstacle
+
+Let’s add the classic Flappy Bird pipes as obstacles. We'll set up a **parent GameObject** with two child objects: **Top** and **Bottom** pipes. Each child will have its own sprite and collider.
+
+---
+
+### 🧱 Step 1: Create the Pipe Parent Object
+
+1. In the **Hierarchy**, right-click > `Create Empty`.
+2. Rename the new GameObject to `Pipe`.
+
+This will act as the container for both the top and bottom pipes.
+
+---
+
+### 🌲 Step 2: Create the Top Pipe
+
+1. Right-click on `Pipe` > `Create Empty` again — this makes a child object.
+2. Rename this child to `Top`.
+3. With `Top` selected, click **Add Component**:
+   - Add a **Sprite Renderer** – this is how we display the image.
+   - Add a **Box Collider 2D** – this lets the bird detect and react to the pipe.
+4. In the **Sprite Renderer**, drag and drop your pipe sprite image into the **Sprite** field.
+
+> ✅ No need to add `Rigidbody 2D` since the pipes are stationary — they don’t need physics like gravity.
+
+---
+
+### 🔁 Step 3: Duplicate and Flip for the Bottom Pipe
+
+1. Right-click the `Top` object > **Duplicate** (or press `Ctrl + D`).
+2. Rename the duplicated object to `Bottom`.
+3. Select the `Bottom` pipe and go to the **Inspector**.
+4. Change the **Scale Y** value to `-1` — this flips the pipe upside down so it faces downward.
+
+> 🎨 Both pipes will now share the same sprite, but flipped to face each other.
