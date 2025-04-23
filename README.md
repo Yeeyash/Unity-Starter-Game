@@ -264,3 +264,114 @@ Since `flapStrength` is marked `public`, it appears in the Unity Inspector.
 2. In the Inspector, you’ll see your **BirdController** script.
 3. Set Flap Strength to something like 5 or 10 — play around with it to get the right feel.
 
+---
+
+## 🚧 9. Creating the Pipe Obstacle
+
+Let’s add the classic Flappy Bird pipes as obstacles. We'll set up a **parent GameObject** with two child objects: **Top** and **Bottom** pipes. Each child will have its own sprite and collider.
+
+---
+
+### 🧱 Step 1: Create the Pipe Parent Object
+
+1. In the **Hierarchy**, right-click > `Create Empty`.
+2. Rename the new GameObject to `Pipe`.
+
+This will act as the container for both the top and bottom pipes.
+
+---
+
+### 🌲 Step 2: Create the Top Pipe
+
+1. Right-click on `Pipe` > `Create Empty` again — this makes a child object.
+2. Rename this child to `Top`.
+3. With `Top` selected, click **Add Component**:
+   - Add a **Sprite Renderer** – this is how we display the image.
+   - Add a **Box Collider 2D** – this lets the bird detect and react to the pipe.
+4. In the **Sprite Renderer**, drag and drop your pipe sprite image into the **Sprite** field.
+
+> ✅ No need to add `Rigidbody 2D` since the pipes are stationary — they don’t need physics like gravity.
+
+---
+
+### 🔁 Step 3: Duplicate and Flip for the Bottom Pipe
+
+1. Right-click the `Top` object > **Duplicate** (or press `Ctrl + D`).
+2. Rename the duplicated object to `Bottom`.
+3. Select the `Bottom` pipe and go to the **Inspector**.
+4. Change the **Scale Y** value to `-1` — this flips the pipe upside down so it faces downward.
+
+> 🎨 Both pipes will now share the same sprite, but flipped to face each other.
+
+---
+
+## 🏗️ 10. Spawning and Moving Pipes (Like an Endless Runner)
+
+In Flappy Bird, it’s not the bird that flies forward — instead, the world (pipes) scrolls towards the bird. We can simulate this by moving our `Pipe` GameObjects to the **left** constantly.
+
+---
+
+### 🧠 Why Move the Pipes?
+
+The bird stays still on the **X-axis** and only moves **up/down**. To create the illusion of movement, we’ll scroll the obstacles from right to left.
+
+---
+
+### 💻 Step 1: Create a Script to Move the Pipes
+
+1. In your **Scripts** folder, create a new script called `PipeSpawner`.
+2. Attach this script to the **Pipe** parent GameObject.
+3. Double-click to open it in **Visual Studio 2022 IDE**.
+
+Inside the script, write this:
+
+```csharp
+using UnityEngine;
+
+public class PipeSpawner : MonoBehaviour
+{
+    public float moveSpeed = 5f;
+
+    void Update()
+    {
+        transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+    }
+}
+```
+🔍 What’s Happening Here?
+ - `transform.position += Vector3.left * moveSpeed;`: Moves the object left by moveSpeed every frame.
+
+ - **Problem**: This would move faster on high-end devices because Update() runs more often on them.
+
+ - ✅ Solution: Multiply by `Time.deltaTime`, which is the time that has passed since the last frame.
+
+> 🎯 Time.deltaTime makes the movement frame-rate independent — ensuring all devices scroll at the same speed.
+
+Let’s fix that so our game behaves the same on **every device**.
+
+---
+
+### 💡 What is `Time.deltaTime`?
+
+`Time.deltaTime` is the amount of **time (in seconds)** that passed **since the last frame**.
+
+So if your game runs at:
+- 60 FPS ➜ `deltaTime` ≈ 0.016 seconds
+- 30 FPS ➜ `deltaTime` ≈ 0.033 seconds
+
+By multiplying your movement by `deltaTime`, you make it **time-based** instead of **frame-based** — much smoother and consistent.
+
+---
+
+### 🛠️ Step-by-Step Fix
+
+Open your `PipeSpawner` script and update the `Update()` method like this:
+
+```csharp
+void Update()
+{
+    transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+}
+```
+
+> ✅ This ensures your pipes move at `moveSpeed` units per second, regardless of how fast `Update()` is called.
