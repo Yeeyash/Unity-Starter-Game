@@ -530,3 +530,113 @@ public class PipeSpawner : MonoBehaviour
 ---
 
 > 🎉 This structure is modular, readable, and efficient — your first big step into writing maintainable game code!
+
+---
+
+## 🎲 14. Randomizing Pipe Spawn Heights
+
+Right now, all the pipes spawn at the **exact same height** — making the game super predictable and… boring 😴.
+
+Let’s spice things up by adding **random vertical offsets** to each spawned pipe!
+
+---
+
+### 🧠 Idea: Randomize the Y-Coordinate
+
+We’ll give each pipe a **random vertical position** when it spawns — but keep it within a reasonable range so the game stays playable.
+
+---
+
+### 🛠️ Step-by-Step Instructions
+
+#### 1. Add a Height Offset Variable
+
+Open your `PipeSpawner.cs` script and add this new variable at the top:
+
+```csharp
+public float heightOffset = 10f;
+```
+This is how far up and down we allow the pipes to randomly shift.
+
+---
+
+#### 2. Modify the Spawn() Function
+
+Update your function like this:
+```csharp
+void Spawn()
+{
+    float lowestPoint = transform.position.y - heightOffset;
+    float highestPoint = transform.position.y + heightOffset;
+
+    Vector3 spawnPosition = new Vector3(
+        transform.position.x,
+        Random.Range(lowestPoint, highestPoint),
+        0f // Because we're in 2D
+    );
+
+    Instantiate(pipe, spawnPosition, transform.rotation);
+}
+```
+#### 🧠 Why Use Vector3?
+Even though we’re making a 2D game, Unity still expects positions to be in Vector3 format because its engine is 3D under the hood. We just leave the Z-axis at `0`.
+
+#### ✅ Result
+Now every time a pipe spawns, it appears at a different Y position — making your game much more engaging and challenging!
+
+> 🎉 Try adjusting the `heightOffset` in the Inspector to make the pipes easier or harder to dodge.
+
+---
+
+## 🧹 16. Deleting Off-Screen Pipes (Performance Boost)
+
+Your game now spawns pipes beautifully, but there’s a hidden problem…
+
+> 😨 Pipes that go off-screen to the left are **still in memory**, taking up resources!
+
+If you leave them piling up, your game will eventually lag or even crash.
+
+Let’s fix that by **automatically deleting pipes** once they pass the player.
+
+---
+
+### 🧠 Idea
+
+We want to destroy the pipe **once it moves too far left** — outside the camera's view.
+
+---
+
+### 🛠️ Step-by-Step Instructions
+
+#### 1. Open the `Pipe` Script
+
+This is the same script where you handled `moveSpeed`. It should be attached to the **parent pipe prefab**.
+
+#### 2. Add a `deadZone` Variable
+
+At the top of your script, add:
+
+```csharp
+public float deadZone = -10f; // Adjust this based on your camera view
+```
+This is the X-position beyond which a pipe is considered "dead."
+
+#### 3. Check in the `Update()` Function
+Now update your `Update()` function like this:
+
+```csharp
+void Update()
+{
+    transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+
+    if (transform.position.x < deadZone)
+    {
+        Debug.Log("Pipe Deleted"); // Optional: for debugging
+        Destroy(gameObject);
+    }
+}
+```
+####✅ Done! Now You're Saving Memory
+Every pipe that leaves the screen on the left will be automatically destroyed, keeping your game clean and efficient.
+
+> 🧠 Pro Tip: You can also use Unity's `OnBecameInvisible()` function for more advanced optimization later!
