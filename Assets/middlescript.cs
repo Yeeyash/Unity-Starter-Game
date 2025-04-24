@@ -19,7 +19,7 @@ public class middlescript : MonoBehaviour
     {
         if(collision.gameObject.layer == 3)
         {
-            logic.addscore();
+            logic.addscore(1);
         }
     }
 

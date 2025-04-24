@@ -7,9 +7,9 @@ public class logicscript : MonoBehaviour
     public Text scoreText;
 
     [ContextMenu("Increase score")]
-    public void addscore()
+    public void addscore(int scoree)
     {
-        score += 1;
+        score += scoree;
         scoreText.text = score.ToString();
     }
 }
