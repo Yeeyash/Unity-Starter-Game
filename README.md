@@ -865,3 +865,67 @@ void OnTriggerEnter2D(Collider2D collision)
 ✅ Done! Now when the bird passes through the gap:
  - The trigger activates
  - LogicManager updates the score 🎉
+
+---
+
+## ☠️ 19. Creating a Game Over Screen and Restart Button
+
+When the bird hits a pipe, we want to display a **Game Over screen** and allow the player to **restart** the game with a button click.
+
+---
+
+### 🛠️ Step-by-Step Instructions
+
+#### 🎨 1. Create the Game Over UI
+
+- Inside the **Canvas** GameObject in your Hierarchy:
+  - Right-click → `Create Empty` → rename it to **Game Over Screen**.
+  - Right-click on Game Over Screen → `UI > Text (Legacy)` → rename it to **Game Over Text**.
+  - Right-click again on Game Over Screen → `UI > Button` → rename it to **Restart Button**.
+
+✅ You should now have:
+- A parent `Game Over Screen`
+- A child text element to say **"Game Over"**
+- A button to **restart** the game
+
+---
+
+#### 🧰 2. Customize the UI Elements
+
+- Edit the **text**, **width/height**, **font size**, etc. to make it look clean.
+- Tip: Check **"Best Fit"** in the text component for dynamic resizing.
+- Adjust **position** of elements using the **Rect Transform**.
+- You can initially disable the whole **Game Over Screen** by unchecking the box next to its name in the **Inspector** (we'll enable it later).
+
+---
+
+#### 🔁 3. Add Restart Function in LogicScript
+
+- Go to your `LogicScript`.
+- At the top, add:
+
+```csharp
+using UnityEngine.SceneManagement;
+```
+
+ - Then, below your `AddScore()` function, add:
+```csharp
+public void RestartGame()
+{
+    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+}
+```
+This will reload the current scene, effectively restarting the game.
+
+---
+
+#### 🔘 4. Link the Button’s OnClick()
+ - Select the Restart Button in the Hierarchy.
+ - In the Inspector, scroll to the Button (Script) section.
+ - Under OnClick():
+    - Click the "+" icon to add a new action.
+    - Drag and drop the LogicManager GameObject into the object field.
+    - From the dropdown, choose: LogicScript > RestartGame().
+
+Now clicking the button will restart the game!
+
