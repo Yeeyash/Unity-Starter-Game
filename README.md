@@ -865,3 +865,186 @@ void OnTriggerEnter2D(Collider2D collision)
 ✅ Done! Now when the bird passes through the gap:
  - The trigger activates
  - LogicManager updates the score 🎉
+
+---
+
+## ☠️ 19. Creating a Game Over Screen and Restart Button
+
+When the bird hits a pipe, we want to display a **Game Over screen** and allow the player to **restart** the game with a button click.
+
+---
+
+### 🛠️ Step-by-Step Instructions
+
+#### 🎨 1. Create the Game Over UI
+
+- Inside the **Canvas** GameObject in your Hierarchy:
+  - Right-click → `Create Empty` → rename it to **Game Over Screen**.
+  - Right-click on Game Over Screen → `UI > Text (Legacy)` → rename it to **Game Over Text**.
+  - Right-click again on Game Over Screen → `UI > Button` → rename it to **Restart Button**.
+
+✅ You should now have:
+- A parent `Game Over Screen`
+- A child text element to say **"Game Over"**
+- A button to **restart** the game
+
+---
+
+#### 🧰 2. Customize the UI Elements
+
+- Edit the **text**, **width/height**, **font size**, etc. to make it look clean.
+- Tip: Check **"Best Fit"** in the text component for dynamic resizing.
+- Adjust **position** of elements using the **Rect Transform**.
+- You can initially disable the whole **Game Over Screen** by unchecking the box next to its name in the **Inspector** (we'll enable it later).
+
+---
+
+#### 🔁 3. Add Restart Function in LogicScript
+
+- Go to your `LogicScript`.
+- At the top, add:
+
+```csharp
+using UnityEngine.SceneManagement;
+```
+
+ - Then, below your `AddScore()` function, add:
+```csharp
+public void RestartGame()
+{
+    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+}
+```
+This will reload the current scene, effectively restarting the game.
+
+---
+
+#### 🔘 4. Link the Button’s OnClick()
+ - Select the Restart Button in the Hierarchy.
+ - In the Inspector, scroll to the Button (Script) section.
+ - Under OnClick():
+    - Click the "+" icon to add a new action.
+    - Drag and drop the LogicManager GameObject into the object field.
+    - From the dropdown, choose: LogicScript > RestartGame().
+
+Now clicking the button will restart the game!
+
+---
+
+## 💥 20. Showing Game Over Screen on Collision
+
+Now it’s time to **show the Game Over screen** when the bird hits a pipe or any obstacle.
+
+---
+
+### 🛠️ Step-by-Step Instructions
+
+#### 🧱 1. Disable Game Over Screen Initially
+
+- Select the **Game Over Screen** GameObject in the Hierarchy.
+- In the **Inspector**, **uncheck** the box beside the name to disable it by default.
+  - ✅ This means it won't be visible until we turn it on through code.
+
+---
+
+#### 🧠 2. Update LogicScript to Show Game Over
+
+- In your `LogicScript`, declare a reference to the Game Over UI:
+
+```csharp
+public GameObject GameOverScreen;
+```
+
+ - Then create a new function below `AddScore()`:
+ ```csharp
+public void GameOver()
+{
+    GameOverScreen.SetActive(true);
+}
+```
+ - Don’t forget to drag and drop the Game Over Screen GameObject into the LogicManager script’s `GameOverScreen` field in the Unity Editor.
+
+---
+
+#### 🐦 3. Handle Bird Collision in BirdScript
+We’ll use the same logic reference code that we used in the `MiddleScript`.
+
+In `BirdScript`, declare:
+```csharp
+private LogicScript logic;
+private bool birdIsAlive = true;
+```
+ - Inside the `Start()` method:
+```csharp
+logic = GameObject.FindGameObjectWithTag("logic").GetComponent<LogicScript>();
+```
+ - Beloew `Update()`, add:
+```csharp
+void OnCollisionEnter2D(Collision2D collision)
+{
+    logic.GameOver();
+    birdIsAlive = false;
+}
+```
+
+---
+
+#### 🕹️ 4. Prevent Bird From Flapping After Game Over
+Inside the `Update()` function, modify the space key press logic:
+```csharp
+if (Input.GetKeyDown(KeyCode.Space) && birdIsAlive)
+{
+    myRigidbody.velocity = Vector2.up * flapStrength;
+}
+```
+Now the bird will only flap if it's still alive, and once it collides, the Game Over screen appears and flapping stops.
+
+---
+
+You made it this far — that’s seriously awesome! 💪 You’ve built your **first Unity game from scratch** — complete with physics, collisions, a scoring system, UI elements, and a Game Over screen. Before we wrap up, let’s build the game so you can share it with friends or run it as a standalone app.
+
+---
+
+### 🚀 How to Build the Game in Unity
+
+1. **Save your scene** and make sure everything works as expected.
+   - Go to `File > Save Scenes` or press `Ctrl + S`.
+
+2. **Open the Build Settings**:
+   - Click `File > Build Settings`.
+
+3. **Add your current scene**:
+   - Click on the **"Add Open Scenes"** button so Unity knows what to build.
+
+4. **Choose your platform**:
+   - For PC: Select **Windows**.
+   - For Mac: Select **macOS**.
+   - For Web: Select **WebGL**.
+   - For Android: Select **Android** (requires setup).
+
+5. **Set player settings (optional)**:
+   - You can change the game name, icon, resolution, etc. by clicking **"Player Settings"**.
+
+6. **Click on "Build"**:
+   - Choose a folder where the game will be saved.
+   - Unity will now export your game — just run the `.exe` (or appropriate file) to play!
+
+---
+
+### 🎊 Congratulations!
+
+👏 You just built your **first Unity game**! That’s a huge achievement, especially if you’re new to game development.
+
+By finishing this guide, you’ve learned:
+
+- Unity’s UI and layout
+- GameObject creation & manipulation
+- Using Rigidbody2D and Colliders for physics
+- Writing C# scripts for game logic
+- Spawning and destroying objects dynamically
+- Creating interactive UI with buttons
+- Building and exporting your game
+
+You’ve got all the core tools and concepts to start **building bigger and cooler games** from here.
+
+🚀 Keep experimenting. Keep building. And most importantly — have fun doing it!
