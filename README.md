@@ -588,7 +588,7 @@ Now every time a pipe spawns, it appears at a different Y position — making yo
 
 ---
 
-## 🧹 16. Deleting Off-Screen Pipes (Performance Boost)
+## 🧹 15. Deleting Off-Screen Pipes (Performance Boost)
 
 Your game now spawns pipes beautifully, but there’s a hidden problem…
 
@@ -640,3 +640,62 @@ void Update()
 Every pipe that leaves the screen on the left will be automatically destroyed, keeping your game clean and efficient.
 
 > 🧠 Pro Tip: You can also use Unity's `OnBecameInvisible()` function for more advanced optimization later!
+
+---
+
+## 🧮 16. Displaying Score Using Unity UI
+
+It's finally time to **display the score** on the screen! For this, we’ll use Unity’s **UI System**.
+
+To draw anything like text or buttons on the screen, you need a special GameObject called a **Canvas**.
+
+---
+
+### 🎨 Step-by-Step: Creating the Score Text
+
+#### ✅ 1. Create a Canvas
+- In the **Hierarchy** panel, right-click → `UI` → `Canvas`.
+- This creates a Canvas GameObject (along with an EventSystem).
+
+> 🧠 Unity automatically creates an **EventSystem** with it — that’s normal.
+
+---
+
+#### ✏️ 2. Add a Text Element
+- Right-click on the Canvas → `UI` → `Text - Legacy`.
+- This will create a child GameObject of Canvas called `Text`.
+
+> 💬 This is where we’ll show the player’s score.
+
+---
+
+#### 🔍 3. Adjust Canvas for All Screen Sizes
+
+- Select the **Canvas** in Hierarchy.
+- In the **Inspector**, under the **Canvas Scaler** component:
+  - Change `UI Scale Mode` to: **Scale With Screen Size**
+  - Set `Reference Resolution` to: **1920 x 1080**
+
+> 🖥️ This ensures your UI looks good on all devices and resolutions.
+
+---
+
+#### 🎯 4. Tweak the Text Settings
+
+- Select the **Text** GameObject.
+- To make the text visible and clean:
+  - ✅ Tick the **Best Fit** checkbox (auto adjusts font size).
+  - 🎨 Change **Font**, **Color**, and **Style** as you like.
+  - 📐 Adjust **Width & Height** using **Rect Transform**, not scale!
+  - 💥 Do **not** scale the object — it will blur the text.
+
+> 📍 You might need to zoom out **a lot** in the Scene view to see your Canvas and text — that’s totally normal.
+
+---
+
+✅ Done! You now have a text element ready to display score.
+
+🧠 Up Next: In the next step, we’ll write a script that **updates this text** in real-time as the player scores points!
+
+---
+
