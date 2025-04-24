@@ -697,5 +697,86 @@ To draw anything like text or buttons on the screen, you need a special GameObje
 
 🧠 Up Next: In the next step, we’ll write a script that **updates this text** in real-time as the player scores points!
 
+
 ---
+
+## 🧠 17. Managing Score with a Logic Manager (And Updating the UI)
+
+Now that we’ve added a score text on the screen, let’s make it actually **change when the player scores!**
+
+We’ll create a **Logic Manager** script that:
+- Handles the score system 🎯
+- Updates the text on screen 📺
+
+---
+
+### 🛠️ Step-by-Step Instructions
+
+#### ✅ 1. Create the Logic Manager
+
+- In the **Hierarchy**, right-click → `Create Empty` → rename it to **LogicManager**.
+- This GameObject will handle all game logic behind the scenes.
+
+---
+
+#### 🧾 2. Add a Script to It
+
+- Select LogicManager → click **Add Component** → create new script `LogicManager`.
+- Open the script.
+
+---
+
+#### 📦 3. Import the UI Library
+
+At the very top of your script, add:
+
+```csharp
+using UnityEngine.UI;
+```
+
+This allows the script to interact with UI elements like Text.
+
+---
+
+#### 🔢 4. Declare Variables
+Inside your script, add:
+
+```csharp
+public int score;
+public Text scoretext;
+```
+
+We’ll update the `score` and display it using `scoreText`.
+
+---
+
+#### ➕ 5. Create a Function to Add Score
+Now add this method:
+```csharp
+public void addscore(){
+   score += 1;
+   scoretext.Text = score.Tostring();
+}
+```
+This function:
+ - Increases the score by 1
+ - Updates the text to match the new score
+
+---
+
+#### 🔗 6. Link the UI Element in Unity
+ - Go to Inspector of LogicManager in Unity.
+ - You’ll see an empty field for `Score Text`.
+ - Drag the `Text` element from the **Canvas** and drop it into that slot.
+
+---
+
+#### 🧱 Bonus: Fixing Pipe Collisions
+> If the bird is not colliding with pipes...
+
+ - You probably need to increase the collider size.
+ - Select your Pipe prefab in the Hierarchy.
+ - Expand it to reveal Top and Bottom pipes.
+ - Select each one and go to the Box Collider 2D component.
+ - Adjust the X and Y size values to match the visible size of your pipe sprite.
 
