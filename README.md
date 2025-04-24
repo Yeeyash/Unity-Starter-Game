@@ -780,3 +780,88 @@ This function:
  - Select each one and go to the Box Collider 2D component.
  - Adjust the X and Y size values to match the visible size of your pipe sprite.
 
+---
+
+## 🎯 18. Adding Score Triggers When Bird Crosses the Gap
+
+We need a **trigger** to call the `AddScore()` function **every time the bird passes between pipes**.
+
+---
+
+### 🧠 How Do We Do This?
+
+We'll add a new **invisible trigger zone** to the pipe prefab to detect if the bird successfully passes through — and update the score accordingly.
+
+---
+
+### 🛠️ Step-by-Step Instructions
+
+#### 🧱 1. Create a Score Trigger in Pipe Prefab
+
+- In your **Pipe prefab**, right-click on it → `Create Empty` → rename it to `Middle`.
+- Select `Middle` → Add Component → `Box Collider 2D`.
+- In the Box Collider settings, **tick** the checkbox for **"Is Trigger"** ✅
+
+---
+
+#### 🧾 2. Create a New Script for Middle
+
+- Add a new script to `Middle` and name it `MiddleScript`.
+- Open the script.
+
+---
+
+#### 🔗 3. Access LogicManager from This Script
+
+We want this script to call `AddScore()` from `LogicManager`, but `Pipe` is not a GameObject in the scene — it’s spawned at runtime by the `PipeSpawner`.
+
+So we **can’t drag and drop** a reference manually.
+
+---
+
+#### 🏷️ 4. Create and Assign a Tag for LogicManager
+
+- Select `LogicManager` in the **Hierarchy**.
+- In the Inspector → click the **"Tag"** dropdown → choose `Add Tag`.
+- Click `+`, name it **logic**, and save.
+- Now, go back to `LogicManager` GameObject → assign the new **logic** tag to it.
+
+---
+
+#### 🔁 5. Access the LogicManager at Runtime
+
+In `MiddleScript`, declare:
+
+```csharp
+public LogicScript logic;
+```
+Then in the `Start()` method, write:
+```csharp
+logic = GameObject.FindGameObjectWithTag("logic").GetComponent<LogicScript>();
+```
+This is the same as drag-and-drop, except it happens during runtime!
+
+---
+
+#### 🐦 6. Detect Which Object Triggered the Score
+To ensure only the bird adds score (and not other objects), we’ll use layers.
+ - Select your Bird GameObject.
+ - In the Inspector, click Layer → Add Layer → create a new one called Bird.
+ - Assign the Bird GameObject to the Bird layer (should be index 3 if it’s the first new layer).
+
+Now, in `MiddleScript`, add:
+```csharp
+void OnTriggerEnter2D(Collider2D collision)
+{
+    if (collision.gameObject.layer == 3)
+    {
+        logic.AddScore();
+    }
+}
+```
+
+---
+
+✅ Done! Now when the bird passes through the gap:
+ - The trigger activates
+ - LogicManager updates the score 🎉
